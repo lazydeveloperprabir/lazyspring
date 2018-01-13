@@ -16,7 +16,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<full-artifact-name>./target/web-service-impl-0.0.1-SNAPSHOT.jar</full-artifact-name>
 	</properties>
 
 	<dependencies>
@@ -35,11 +34,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-<dependency>
-    <groupId>com.heroku.sdk</groupId>
-    <artifactId>heroku-maven-plugin</artifactId>
-    <version>1.0.3</version>
-</dependency>
+
 		<dependency>
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
@@ -64,7 +59,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-			<!-- <plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<executions>
@@ -75,7 +70,7 @@
 					</execution>
 				</executions>
 			</plugin>
- -->
+
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
@@ -128,7 +123,7 @@
 		</plugins>
 	</build>
 
-	<!-- <profiles>
+	<profiles>
 		<profile>
 			<id>heroku</id>
 			<activation>
@@ -149,10 +144,7 @@
 								<include>${basedir}/${full-artifact-name}</include>
 							</includes>
 							<jdkVersion>1.8</jdkVersion>
-							<processTypes>
-								<web>java $JAVA_OPTS -jar ${full-artifact-name}
-									--spring.profiles.active=heroku</web>
-							</processTypes>
+
 						</configuration>
 						<executions>
 							<execution>
@@ -167,5 +159,5 @@
 			</build>
 		</profile>
 	</profiles>
- -->
+
 </project>
