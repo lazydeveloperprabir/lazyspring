@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/api")
 public class HelloController {
     Logger logger = LoggerFactory.getLogger(HelloController.class);
 
-    @GetMapping
+    @GetMapping("/echo")
     public String hello() {
         logger.info("Hello worker called");
         return "Hello from worker";
