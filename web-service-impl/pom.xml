@@ -1,177 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    
-    <artifactId>web-service-impl</artifactId>
-    <parent>
-        <groupId>org.lazyspring</groupId>
-        <artifactId>spring-boot-heroku-app</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    
+	<artifactId>web-service-impl</artifactId>
+	<parent>
+		<groupId>org.lazyspring</groupId>
+		<artifactId>spring-boot-heroku-app</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-    </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.retry</groupId>
-            <artifactId>spring-retry</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <!-- <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency> -->
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        
-        <dependency>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.retry</groupId>
+			<artifactId>spring-retry</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-security</artifactId> 
+			</dependency> -->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
 		</dependency>
-        
-        <dependency>
-            <groupId>org.lazyspring</groupId>
-            <artifactId>web-service</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
+		<dependency>
+			<groupId>org.lazyspring</groupId>
+			<artifactId>web-service</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>1.4.1.RELEASE</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <configuration>
-                    <dotGitDirectory>../.git</dotGitDirectory>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>build-info</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 
-    <profiles>
-        <profile>
-            <id>heroku</id>
-            <activation>
-                <property>
-                    <name>heroku</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.heroku.sdk</groupId>
-                        <artifactId>heroku-maven-plugin</artifactId>
-                        <version>1.1.1</version>
-                        <configuration>
-                            <appName>exampledriven-springworker-dev</appName>
-                            <includeTarget>false</includeTarget>
-                            <includes>
-                                <include>${basedir}/${full-artifact-name}</include>
-                            </includes>
-                            <jdkVersion>1.8</jdkVersion>
-                            <processTypes>
-                                <web>java $JAVA_OPTS -jar ${full-artifact-name} --spring.profiles.active=heroku</web>
-                            </processTypes>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>deploy</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    
-                    <plugin>
-            <groupId>pl.project13.maven</groupId>
-            <artifactId>git-commit-id-plugin</artifactId>
-            <version>2.2.2</version>
-            <!-- optional to change the phases of the individual mojo's -->
-            <executions>
-              <execution>
-                <id>get-the-git-infos</id>
-                <goals>
-                  <goal>revision</goal>
-                </goals>
-              </execution>
-              <execution>
-                <id>validate-the-git-infos</id>
-                <goals>
-                  <goal>validateRevision</goal>
-                </goals>
-                <phase>package</phase>
-             </execution>
-            </executions>
-            <configuration>
-              <verbose>true</verbose>
-              <skip>false</skip>
-              <prefix>git</prefix>
-              <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-              <generateGitPropertiesFile>true</generateGitPropertiesFile>
-              <generateGitPropertiesFilename>target/testing.properties</generateGitPropertiesFilename>
-              <dateFormat>dd.MM.yyyy '@' HH:mm:ss z</dateFormat>
-              <dateFormatTimeZone>GMT-08:00</dateFormatTimeZone>
-              <useNativeGit>false</useNativeGit>
-              <abbrevLength>7</abbrevLength>
-              <format>properties</format>
-              <injectAllReactorProjects>true</injectAllReactorProjects>
-              <gitDescribe>
-                <skip>false</skip>
-                <always>false</always>
-                <abbrev>7</abbrev>
-                <match>*</match>
-                <dirty>-DEVEL</dirty>
-                <forceLongFormat>false</forceLongFormat>
-              </gitDescribe>
-              <excludeProperties>
-                <excludeProperty>git.commit.*</excludeProperty>
-                <excludeProperty>git.remote.origin.url</excludeProperty>
-              </excludeProperties>
-              <failOnNoGitDirectory>false</failOnNoGitDirectory>
-              <failOnUnableToExtractRepoInfo>true</failOnUnableToExtractRepoInfo>
-            </configuration>
-</plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+			<plugin>
+				<groupId>pl.project13.maven</groupId>
+				<artifactId>git-commit-id-plugin</artifactId>
+				<configuration>
+					<dotGitDirectory>../.git</dotGitDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>heroku</id>
+			<activation>
+				<property>
+					<name>heroku</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.heroku.sdk</groupId>
+						<artifactId>heroku-maven-plugin</artifactId>
+						<version>1.1.1</version>
+						<configuration>
+							<appName>myApp</appName>
+							<includeTarget>false</includeTarget>
+							<includes>
+								<include>${basedir}/${full-artifact-name}</include>
+							</includes>
+							<jdkVersion>1.8</jdkVersion>
+							<processTypes>
+								<web>java $JAVA_OPTS -jar ${full-artifact-name}
+									--spring.profiles.active=heroku</web>
+							</processTypes>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>verify</phase>
+								<goals>
+									<goal>deploy</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>pl.project13.maven</groupId>
+						<artifactId>git-commit-id-plugin</artifactId>
+						<version>2.2.2</version>
+						<!-- optional to change the phases of the individual mojo's -->
+						<executions>
+							<execution>
+								<id>get-the-git-infos</id>
+								<goals>
+									<goal>revision</goal>
+								</goals>
+							</execution>
+							<execution>
+								<id>validate-the-git-infos</id>
+								<goals>
+									<goal>validateRevision</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<verbose>true</verbose>
+							<skip>false</skip>
+							<prefix>git</prefix>
+							<dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
+							<generateGitPropertiesFile>true</generateGitPropertiesFile>
+							<generateGitPropertiesFilename>target/testing.properties</generateGitPropertiesFilename>
+							<dateFormat>dd.MM.yyyy '@' HH:mm:ss z</dateFormat>
+							<dateFormatTimeZone>GMT-08:00</dateFormatTimeZone>
+							<useNativeGit>false</useNativeGit>
+							<abbrevLength>7</abbrevLength>
+							<format>properties</format>
+							<injectAllReactorProjects>true</injectAllReactorProjects>
+							<gitDescribe>
+								<skip>false</skip>
+								<always>false</always>
+								<abbrev>7</abbrev>
+								<match>*</match>
+								<dirty>-DEVEL</dirty>
+								<forceLongFormat>false</forceLongFormat>
+							</gitDescribe>
+							<excludeProperties>
+								<excludeProperty>git.commit.*</excludeProperty>
+								<excludeProperty>git.remote.origin.url</excludeProperty>
+							</excludeProperties>
+							<failOnNoGitDirectory>false</failOnNoGitDirectory>
+							<failOnUnableToExtractRepoInfo>true</failOnUnableToExtractRepoInfo>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
