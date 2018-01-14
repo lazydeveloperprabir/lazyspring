@@ -1,2 +1,2 @@
-web : java  -jar web-service-impl/target/*.jar --server.port=$PORT
+web : java  -jar target/*.jar --server.port=$PORT
 
